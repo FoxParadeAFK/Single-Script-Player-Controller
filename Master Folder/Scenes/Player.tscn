@@ -1,0 +1,154 @@
+[gd_scene load_steps=15 format=3 uid="uid://cxvo8x3l2635t"]
+
+[ext_resource type="Texture2D" uid="uid://dlhuvdraaqtwe" path="res://Sprites/Personal Main Character.png" id="1_cgsk3"]
+[ext_resource type="Script" path="res://Scripts/PlayerController.gd" id="1_in1y7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abu0r"]
+atlas = ExtResource("1_cgsk3")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsgg2"]
+atlas = ExtResource("1_cgsk3")
+region = Rect2(320, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo8vy"]
+atlas = ExtResource("1_cgsk3")
+region = Rect2(0, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shxke"]
+atlas = ExtResource("1_cgsk3")
+region = Rect2(64, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_touhw"]
+atlas = ExtResource("1_cgsk3")
+region = Rect2(128, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bc1x"]
+atlas = ExtResource("1_cgsk3")
+region = Rect2(192, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7h4ax"]
+atlas = ExtResource("1_cgsk3")
+region = Rect2(256, 256, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_al38u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abu0r")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsgg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo8vy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shxke")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_touhw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bc1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7h4ax")
+}],
+"loop": true,
+"name": &"Running",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_th85m"]
+resource_name = "Idle"
+length = 0.20002
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_asdbf"]
+resource_name = "Running"
+length = 0.60001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Running"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2jeuf"]
+_data = {
+"Idle": SubResource("Animation_th85m"),
+"Running": SubResource("Animation_asdbf")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcyb7"]
+size = Vector2(8, 17)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_in1y7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_al38u")
+animation = &"Running"
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2jeuf")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 1.5)
+shape = SubResource("RectangleShape2D_xcyb7")
+debug_color = Color(0, 0.644768, 0.274225, 0.42)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
